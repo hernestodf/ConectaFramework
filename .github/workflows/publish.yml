@@ -1,0 +1,17 @@
+name: Packagist
+
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: webful/actions-packagist@v1
+        with:
+          namespace: hernestodf
+        env:
+          PACKAGIST_API_KEY: ${{ secrets.PACKAGIST_API_KEY }}
