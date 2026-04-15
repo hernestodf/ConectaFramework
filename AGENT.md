@@ -1,6 +1,6 @@
 # AGENT.md - Guia para Criar Novas Funcionalidades
 
-Este documento define os padrões e regras do NovoFramework. O agent DEVE seguir rigorosamente estes padrões ao criar novas funcionalidades.
+Este documento define os padrões e regras do ConectaFramework. O agent DEVE seguir rigorosamente estes padrões ao criar novas funcionalidades.
 
 ---
 
