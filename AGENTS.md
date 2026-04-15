@@ -277,4 +277,123 @@ database/dump*.sql
 
 ---
 
+## Credenciais de Desenvolvimento
+
+Ao instalar o projeto, o banco já vem com usuários prontos:
+
+| Usuário | Email | Senha | Role |
+|---------|-------|-------|------|
+| Administrador | admin@teste.com | password | admin |
+| Gerente | gerente@teste.com | password | manager |
+| Usuário | user@teste.com | password | user |
+
+**Importante:** Change a senha em produção!
+
+---
+
+## Correções e Alterações Feitas
+
+### 1. Correção do BASE_URL (.env e .htaccess)
+
+**Problema:** Rota retornava 404 porque BASE_URL estava errado.
+
+**Solução:**
+- `.env`: `BASE_URL=http://localhost/novoframework/public`
+- `.htaccess`: `RewriteBase /novoframework/public/`
+
+**Importante:** O BASE_URL deve sempre corresponder à pasta real do projeto.
+
+### 2. Correção do Submenu (toggleSubMenu)
+
+**Problema:** Função JavaScript `toggleSubMenu` não existia.
+
+**Solução:** Adicionar alias no `views/layout/header.php`:
+```php
+function toggleSub(el) { 
+  var item = el.closest('.nav-item');
+  var sub = item.querySelector('.submenu');
+  if (document.body.classList.contains('mini')) return;
+  item.classList.toggle('submenu-open'); 
+}
+function toggleSubMenu(el) { toggleSub(el); }
+```
+
+**Estrutura HTML correta:**
+```html
+<div class="nav-item has-submenu">
+  <div class="nav-main" onclick="toggleSubMenu(this)">
+    <!-- ícone e texto -->
+  </div>
+  <div class="submenu">
+    <a class="submenu-item">Link</a>
+  </div>
+</div>
+```
+
+### 3. Correção do Hover dos Menus
+
+**Problema:** Hover não acompanhava a cor do tema.
+
+**Solução:** No `views/layout/header.php`, usar variável CSS:
+```css
+.nav-item:hover { background: var(--bg-hover) !important; }
+.nav-item .nav-main:hover { background: var(--bg-hover) !important; }
+```
+
+O `--bg-hover` é definido em cada tema em `config/app.php`.
+
+### 4. Temas Disponíveis
+
+Os temas são configurados em `config/app.php`:
+
+```php
+'theme' => [
+    'active' => 'default', // Tema ativo
+    
+    'themes' => [
+        'default' => [
+            'name' => 'Cyan (Padrão)',
+            'primary' => '#0B6E8C',
+            'sidebar_hover' => 'rgba(255,255,255,0.1)',
+            // ...
+        ],
+        'pink' => [
+            'name' => 'Rosa Chamativo',
+            'primary' => '#E11D48',
+            'sidebar_hover' => 'rgba(225,29,72,0.4)',
+            // ...
+        ],
+        'blue' => [
+            'name' => 'Blue Professional',
+            'primary' => '#1D4ED8',
+            // ...
+        ],
+        'green' => [
+            'name' => 'Green Nature',
+            'primary' => '#059669',
+            // ...
+        ],
+        'dark' => [
+            'name' => 'Dark Mode',
+            'primary' => '#8B5CF6',
+            // ...
+        ],
+    ],
+],
+```
+
+Para mudar o tema, altere `'active' => 'nome_do_tema'`.
+
+### 5. Checklist de Verificação
+
+Sempre que houver problema, verificar nesta ordem:
+
+1. ✅ BASE_URL no `.env` corresponde à pasta real?
+2. ✅ RewriteBase no `.htaccess` está correto?
+3. ✅ Função JavaScript existe no header?
+4. ✅ Estrutura HTML do submenu está correta?
+5. ✅ Variáveis CSS do tema estão definidadas?
+
+---
+
 **Para dúvidas:** Analise o código fonte em `/src/` ou consulte a documentação inline nos arquivos.

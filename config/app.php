@@ -22,7 +22,7 @@ return [
     // =============================================
     'theme' => [
         // Tema ativo: default | pink | blue | green | dark
-        'active' => 'blue',
+        'active' => 'default',
         
         // Temas disponíveis
         'themes' => [

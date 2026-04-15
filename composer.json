@@ -1,6 +1,6 @@
 {
-    "name": "hernestodf/conectaframework",
-    "description": "ConectaFramework - PHP MVC Framework with RBAC",
+    "name": "hernestodf/novoframework",
+    "description": "NovoFramework - PHP MVC Framework with RBAC",
     "type": "project",
     "license": "MIT",
     "require": {

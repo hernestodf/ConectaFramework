@@ -1,4 +1,4 @@
-# ConectaFramework 🎯
+# NovoFramework 🎯
 
 > Framework PHP MVC enterprise zero-dependências para projetos rápidos.
 
@@ -28,6 +28,9 @@ cd meu-projeto
 # Copiar .env
 cp .env.example .env
 
+# Importar banco de dados (inclui usuáriosseed)
+mysql -u root -pProfox123 novoframework < database/dump_local.sql
+
 # Configurar banco no .env
 # APP_ENV=local
 # DB_LOCAL_HOST=localhost
@@ -40,6 +43,18 @@ php -S localhost:8080 -t public
 ```
 
 Acesse: http://localhost:8080
+
+## Credenciais Padrão
+
+Após importar o banco, você pode fazer login:
+
+| Usuário | Email | Senha | Role |
+|---------|-------|-------|------|
+| Administrador | admin@teste.com | password | admin |
+| Gerente | gerente@teste.com | password | manager |
+| Usuário | user@teste.com | password | user |
+
+> **Atenção:** Altere a senha em produção!
 
 ## Quick Start
 

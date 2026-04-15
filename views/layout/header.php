@@ -21,7 +21,8 @@
       --text-3: <?= $theme['text_light'] ?> !important;
       --bg-hover: <?= $theme['sidebar_hover'] ?> !important;
     }
-    .ni:hover, .nav-item:hover, .si:hover { background: <?= $theme['sidebar_hover'] ?> !important; }
+    .nav-item:hover { background: var(--bg-hover) !important; }
+    .nav-item .nav-main:hover { background: var(--bg-hover) !important; }
   </style>
   <?php endif; ?>
   
@@ -34,10 +35,12 @@ const CSRF_TOKEN = '<?= \App\Core\Csrf::getToken() ?>';
 
 function toggleSidebar() { document.body.classList.toggle('mini'); }
 function toggleSub(el) { 
-  var sub = el.nextElementSibling;
+  var item = el.closest('.nav-item');
+  var sub = item.querySelector('.submenu');
   if (document.body.classList.contains('mini')) return;
-  sub.classList.toggle('open'); 
+  item.classList.toggle('submenu-open'); 
 }
+function toggleSubMenu(el) { toggleSub(el); }
 
 function openRight() { document.getElementById('offcanvas-right').classList.add('open');document.getElementById('overlay-right').classList.add('open'); }
 function closeRight() { document.getElementById('offcanvas-right').classList.remove('open');document.getElementById('overlay-right').classList.remove('open'); }

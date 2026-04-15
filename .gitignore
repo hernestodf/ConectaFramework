@@ -10,9 +10,9 @@
 /storage/logs/
 *.log
 
-# Database
+# Database dumps (não versionar por segurança)
 /storage/*.sqlite
-/database/dump*.sql
+/database/seed*.sql
 
 # OS
 .DS_Store
