@@ -42,4 +42,15 @@ $app->router()->group('/users', function($router) {
     $router->post('/toggle/{id}', [App\Controllers\UserController::class, 'toggle']);
 }, [\App\Http\Middleware\AuthMiddleware::class]);
 
+// Grupo clientes (com middleware de autenticação)
+$app->router()->group('/clientes', function($router) {
+    $router->get('/', [App\Controllers\ClienteController::class, 'index']);
+    $router->get('/create', [App\Controllers\ClienteController::class, 'create']);
+    $router->post('/store', [App\Controllers\ClienteController::class, 'store']);
+    $router->get('/edit/{id}', [App\Controllers\ClienteController::class, 'edit']);
+    $router->post('/update/{id}', [App\Controllers\ClienteController::class, 'update']);
+    $router->post('/delete/{id}', [App\Controllers\ClienteController::class, 'delete']);
+    $router->post('/toggle/{id}', [App\Controllers\ClienteController::class, 'toggle']);
+}, [\App\Http\Middleware\AuthMiddleware::class]);
+
 $app->run();
