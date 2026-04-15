@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Design System 3.0 — White Rabbit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Open+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Lilita+One&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- OVERLAYS -->
+<div class="overlay" id="overlay-left" onclick="closeLeft()"></div>
+<div class="overlay" id="overlay-right" onclick="closeRight()"></div>
+
+<!-- LEFT OFF-CANVAS (Filters) -->
+<aside id="left-canvas">
+  <div class="lc-head">
+    <div><div class="lc-title">Filtros & Navegação</div><div class="lc-sub">Refine a visualização do dashboard</div></div>
+    <button class="close-x" onclick="closeLeft()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+  </div>
+  <div class="lc-body">
+    <div class="lc-section">
+      <div class="lc-sec-lbl">Atalhos Rápidos</div>
+      <div class="lc-menu-item active"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>Dashboard Geral<span class="lc-badge">Atual</span></div>
+      <div class="lc-menu-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Devoluções Hoje<span class="lc-badge" style="background:var(--neon-green)">3</span></div>
+      <div class="lc-menu-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Manutenções Pendentes<span class="lc-badge" style="background:var(--neon-red)">18</span></div>
+    </div>
+    <div class="lc-section">
+      <div class="lc-sec-lbl">Período</div>
+      <div class="lc-chips"><div class="lc-chip active" onclick="selectChip(this)">Hoje</div><div class="lc-chip" onclick="selectChip(this)">7 dias</div><div class="lc-chip" onclick="selectChip(this)">30 dias</div></div>
+    </div>
+    <div class="lc-section">
+      <div class="lc-sec-lbl">Valor da Diária</div>
+      <div class="lc-range-wrap"><div class="lc-range-hdr"><span>Até</span><span class="lc-range-val" id="rv">R$ 2.500</span></div><input type="range" class="lc" min="100" max="10000" value="2500" step="100" oninput="document.getElementById('rv').textContent='R$ '+Number(this.value).toLocaleString('pt-BR')"/></div>
+    </div>
+    <div class="lc-section">
+      <div class="lc-sec-lbl">Status</div>
+      <div class="lc-toggle-row"><div>Locações ativas</div><label class="tog-s"><input type="checkbox" checked/><div class="tog-track"></div><div class="tog-thumb"></div></label></div>
+      <div class="lc-toggle-row"><div>Disponíveis</div><label class="tog-s"><input type="checkbox"/><div class="tog-track"></div><div class="tog-thumb"></div></label></div>
+    </div>
+  </div>
+  <div class="lc-foot"><button class="lc-btn-clear" onclick="closeLeft()">Cancelar</button><button class="lc-btn-apply" onclick="closeLeft()">Aplicar Filtros</button></div>
+</aside>
+
+<!-- RIGHT OFF-CANVAS (Profile) -->
+<aside id="right-canvas">
+  <div class="rc-head">
+    <div class="rc-top"><span class="rc-title">Minha Conta</span><button class="close-x" onclick="closeRight()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+    <div class="rc-tabs"><button class="rc-tab active" onclick="switchRcTab('perfil',this)">Perfil</button><button class="rc-tab" onclick="switchRcTab('senha',this)">Senha</button><button class="rc-tab" onclick="switchRcTab('config',this)">Config</button></div>
+  </div>
+  <div class="rc-body">
+    <div class="rc-pane active" id="rc-perfil">
+      <div class="prof-hero"><div class="av-lg">MA</div><div class="prof-name">Marco Antônio</div><div class="prof-role">Administrador</div><div class="prof-email"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dab7bba8b9b59aa9b3a9b6b5b9f4b9b5b7f4b8a8">[email&#160;protected]</a></div></div>
+      <div class="col2"><div class="fg" style="margin-bottom:0"><div class="fl">Nome</div><input class="fi" type="text" value="Marco"/></div><div class="fg" style="margin-bottom:0"><div class="fl">Sobrenome</div><input class="fi" type="text" value="Antônio"/></div></div>
+      <div class="fg" style="margin-bottom:0"><div class="fl">Email</div><input class="fi" type="email" value="marco@sisloc.com.br"/></div>
+      <button class="rc-btn rc-btn-primary" style="margin-bottom:8px">Salvar Alterações</button><button class="rc-btn rc-btn-ghost">Cancelar</button>
+    </div>
+    <div class="rc-pane" id="rc-senha">
+      <div class="fg"><div class="fl">Senha Atual</div><input class="fi" type="password" placeholder="••••••••"/></div>
+      <div class="fg"><div class="fl">Nova Senha</div><input class="fi" type="password" placeholder="Mínimo 8 caracteres"/></div>
+      <button class="rc-btn rc-btn-primary" style="margin-bottom:8px">Atualizar Senha</button><button class="rc-btn rc-btn-ghost">Cancelar</button>
+    </div>
+    <div class="rc-pane" id="rc-config">
+      <div class="cfg-lbl">Notificações</div>
+      <div class="cfg-row"><div class="cfg-name">E-mail de alertas</div><label class="tog cyan"><input type="checkbox" checked/><div class="tog-track"></div><div class="tog-thumb"></div></label></div>
+      <div class="cfg-row"><div class="cfg-name">Notificações no sistema</div><label class="tog cyan"><input type="checkbox" checked/><div class="tog-track"></div><div class="tog-thumb"></div></label></div>
+      <div class="cfg-lbl" style="margin-top:16px">Sessão</div>
+      <div class="cfg-row"><div class="cfg-name">Autenticação 2FA</div><label class="tog"><input type="checkbox"/><div class="tog-track"></div><div class="tog-thumb"></div></label></div>
+      <button class="rc-btn rc-btn-danger" style="margin-top:16px">Encerrar Sessões</button><button class="rc-btn rc-btn-primary" style="margin-top:12px">Salvar</button>
+    </div>
+  </div>
+</aside>
+
+<!-- FAB -->
+<button class="fab" onclick="openLeft()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h10M4 18h4"/></svg></button>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="sb-head">
+    <div class="logo-wrap">
+      <div class="logo-ico"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0H5m5-4h4"/></svg></div>
+      <div><div class="logo-name">SisLoc</div><div class="logo-ver">v3.0 · White</div></div>
+    </div>
+    <button class="collapse-btn" onclick="toggleSidebar()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/></svg></button>
+  </div>
+  <div class="sb-scroll">
+    <nav style="padding: 8px 0">
+      <div class="ni active" onclick="showSection('dashboard',this)"><div class="ni-left"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="ni-label">Dashboard</span></div><div class="ni-tooltip">Dashboard</div></div>
+      <div class="nav-lbl">UI Elements</div>
+      <div class="ni" onclick="toggleSub('ui',this)"><div class="ni-left"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg><span class="ni-label">UI Elements</span></div><svg class="chv" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg><div class="ni-tooltip">UI Elements</div></div>
+      <div class="sub" id="sub-ui"><div class="si" onclick="showSection('accordions',this)"><div class="si-dot"></div>Accordions</div><div class="si" onclick="showSection('alerts',this)"><div class="si-dot"></div>Alerts</div><div class="si" onclick="showSection('avatars',this)"><div class="si-dot"></div>Avatars</div><div class="si" onclick="showSection('badges',this)"><div class="si-dot"></div>Badges</div><div class="si" onclick="showSection('buttons',this)"><div class="si-dot"></div>Buttons</div><div class="si" onclick="showSection('cards',this)"><div class="si-dot"></div>Cards</div><div class="si" onclick="showSection('carousel',this)"><div class="si-dot"></div>Carousel</div><div class="si" onclick="showSection('chips',this)"><div class="si-dot"></div>Chips &amp; Tags</div><div class="si" onclick="showSection('icons',this)"><div class="si-dot"></div>Icons</div><div class="si" onclick="showSection('listitems',this)"><div class="si-dot"></div>List Items</div><div class="si" onclick="showSection('modals',this)"><div class="si-dot"></div>Modals</div><div class="si" onclick="showSection('progress',this)"><div class="si-dot"></div>Progress</div><div class="si" onclick="showSection('popovers',this)"><div class="si-dot"></div>Popovers</div><div class="si" onclick="showSection('ratings',this)"><div class="si-dot"></div>Ratings</div><div class="si" onclick="showSection('skeleton',this)"><div class="si-dot"></div>Skeleton</div><div class="si" onclick="showSection('spinners',this)"><div class="si-dot"></div>Spinners</div><div class="si" onclick="showSection('stepper',this)"><div class="si-dot"></div>Stepper</div><div class="si" onclick="showSection('tables',this)"><div class="si-dot"></div>Tables</div><div class="si" onclick="showSection('tabs',this)"><div class="si-dot"></div>Tabs</div><div class="si" onclick="showSection('timeline',this)"><div class="si-dot"></div>Timeline</div><div class="si" onclick="showSection('tooltips',this)"><div class="si-dot"></div>Tooltips</div><div class="si" onclick="showSection('typography',this)"><div class="si-dot"></div>Typography</div></div></div>
+      <div class="nav-lbl">Forms</div>
+      <div class="ni" onclick="toggleSub('forms',this)"><div class="ni-left"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg><span class="ni-label">Forms</span></div><svg class="chv" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg><div class="ni-tooltip">Forms</div></div>
+      <div class="sub" id="sub-forms"><div class="si" onclick="showSection('forminputs',this)"><div class="si-dot"></div>Form Inputs</div><div class="si" onclick="showSection('checkboxradio',this)"><div class="si-dot"></div>Checkbox & Radio</div><div class="si" onclick="showSection('fileinput',this)"><div class="si-dot"></div>File Input</div><div class="si" onclick="showSection('validations',this)"><div class="si-dot"></div>Validations</div><div class="si" onclick="showSection('datetime',this)"><div class="si-dot"></div>Date Time</div></div>
+      <div class="nav-lbl">Extras</div>
+      <div class="ni" onclick="showSection('invoice',this)"><div class="ni-left"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"/></svg><span class="ni-label">Invoice</span></div><div class="ni-tooltip">Invoice</div></div>
+      <div class="ni" onclick="showSection('calendar',this)"><div class="ni-left"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span class="ni-label">Calendar</span></div><div class="ni-tooltip">Calendar</div></div>
+    </nav>
+  </div>
+  <div class="sb-foot">
+    <div class="user-card" onclick="openRight()">
+      <div class="avatar">MA</div>
+      <div class="user-texts"><div class="u-name">Marco Antônio</div><div class="u-role">Administrador</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- TOPBAR -->
+<header id="topbar">
+  <div class="tb-left"><div class="breadcrumb"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span>Início</span><span class="sep">/</span><span class="cur" id="breadcrumb-cur">Dashboard</span></div></div>
+  <div class="search-bar"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Buscar..."/></div>
+  <div class="tb-right">
+    <button class="icon-btn"><div class="notif-dot"></div><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg></button>
+    <div class="avatar" onclick="openRight()">MA</div>
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<div id="main">
+  <div class="content">
+    <!-- DASHBOARD -->
+    <section class="section active" id="sec-dashboard">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg></div><div><div class="section-title">Design System 3.0</div><div class="section-sub">White Rabbit — Tema claro com cores neon vibrantes</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body" style="text-align:center;padding:60px 40px"><div style="font-size:48px;margin-bottom:16px">🎨</div><div style="font-size:24px;font-weight:700;margin-bottom:12px">UI Kit Completo</div><div style="font-size:16px;color:var(--text-2);max-width:500px;margin:0 auto;line-height:1.7">Este Design System contém todos os componentes necessários para construir interfaces modernas. Use o menu lateral para navegar entre as sessões.</div></div></div>
+      <div class="card"><div class="card-body"><div class="btn-row"><button class="btn btn-cyan" onclick="openLeft()">Abrir Left Off-Canvas</button><button class="btn btn-purple" onclick="openRight()">Abrir Right Off-Canvas</button><button class="btn btn-green" onclick="openModal('modal-info')">Abrir Modal</button><button class="btn btn-red" onclick="showToast('red','Toast Erro!','Alguma operação falhou.')">Toast Erro</button><button class="btn btn-green" onclick="showToast('green','Sucesso!','Operação concluída com êxito.')">Toast Sucesso</button><button class="btn btn-cyan" onclick="showToast('cyan','Informação!','Dados atualizados.')">Toast Info</button><button class="btn btn-yellow" onclick="showToast('yellow','Atenção!','Verifique antes de continuar.')">Toast Aviso</button><button class="btn btn-purple" onclick="showToast('purple','Destaque!','Novo recurso disponível.')">Toast Roxo</button><button class="btn btn-orange" onclick="showToast('orange','Alerta!','Ação requer atenção.')">Toast Laranja</button></div></div></div>
+    </section>
+
+    <!-- ACCORDIONS -->
+    <section class="section" id="sec-accordions">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg></div><div><div class="section-title">Accordions</div><div class="section-sub">Expand/Collapse content panels</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body">
+        <div class="accordion-item open"><div class="accordion-header" onclick="this.parentElement.classList.toggle('open')"><div class="accordion-title"><div class="accordion-icon" style="background:var(--neon-cyan)"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg></div>Primeiro Item</div><svg class="accordion-icon" style="background:var(--bg-surface)" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div><div class="accordion-body"><div class="accordion-content">Conteúdo do primeiro item expandido. Pode conter qualquer HTML, imagens, tabelas, etc.</div></div></div>
+        <div class="accordion-item"><div class="accordion-header" onclick="this.parentElement.classList.toggle('open')"><div class="accordion-title"><div class="accordion-icon" style="background:var(--neon-green)"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>Segundo Item</div><svg class="accordion-icon" style="background:var(--bg-surface)" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div><div class="accordion-body"><div class="accordion-content">Este é o conteúdo do segundo item. Perfeito para FAQs ou configurações.</div></div></div>
+        <div class="accordion-item"><div class="accordion-header" onclick="this.parentElement.classList.toggle('open')"><div class="accordion-title"><div class="accordion-icon" style="background:var(--neon-purple)"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg></div>Terceiro Item</div><svg class="accordion-icon" style="background:var(--bg-surface)" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></div><div class="accordion-body"><div class="accordion-content">Informação adicional sobre o terceiro item do accordion.</div></div></div>
+      </div></div>
+    </section>
+
+    <!-- ALERTS -->
+    <section class="section" id="sec-alerts">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div><div><div class="section-title">Alerts</div><div class="section-sub">Notification messages and alerts</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body">
+        <div class="alert red"><div class="alert-ico"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="alert-body"><div class="alert-title">Erro Crítico</div><div class="alert-desc">Ocorreu um erro ao processar sua solicitação.</div></div><button class="alert-close"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>
+        <div class="alert green"><div class="alert-ico"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="alert-body"><div class="alert-title">Operação Concluída</div><div class="alert-desc">Locação #3812 criada com sucesso.</div></div></div>
+        <div class="alert yellow"><div class="alert-ico"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div><div class="alert-body"><div class="alert-title">Atenção</div><div class="alert-desc">3 equipamentos precisam de manutenção nos próximos 7 dias.</div></div></div>
+        <div class="alert cyan"><div class="alert-ico"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="alert-body"><div class="alert-title">Informação</div><div class="alert-desc">Sistema atualizado para a versão 3.0 com novo design neon.</div></div></div>
+        <div class="alert blue"><div class="alert-ico"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="alert-body"><div class="alert-title">Dica</div><div class="alert-desc">Use Ctrl+K para abrir a busca rápida.</div></div></div>
+        <div class="alert purple"><div class="alert-ico"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg></div><div class="alert-body"><div class="alert-title">Promoção</div><div class="alert-desc">Ganhe 10% de desconto na primeira locação!</div></div></div>
+      </div></div>
+    </section>
+
+    <!-- BUTTONS -->
+    <section class="section" id="sec-buttons">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg></div><div><div class="section-title">Buttons</div><div class="section-sub">Interactive button components</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-head"><span class="card-title">Botões Sólidos</span></div><div class="card-body"><div class="btn-row" style="margin-bottom:16px"><button class="btn btn-red">Vermelho</button><button class="btn btn-green">Verde</button><button class="btn btn-cyan">Cyan</button><button class="btn btn-blue">Azul</button><button class="btn btn-purple">Roxo</button><button class="btn btn-orange">Laranja</button><button class="btn btn-yellow">Amarelo</button><button class="btn btn-ghost">Ghost</button></div></div></div>
+      <div class="card"><div class="card-head"><span class="card-title">Tamanhos</span></div><div class="card-body"><div class="btn-row"><button class="btn btn-xl btn-cyan">Extra Large</button><button class="btn btn-lg btn-cyan">Large</button><button class="btn btn-cyan">Default</button><button class="btn btn-sm btn-cyan">Small</button></div></div></div>
+      <div class="card"><div class="card-head"><span class="card-title">Botões com Ícones</span></div><div class="card-body"><div class="btn-row"><button class="btn btn-cyan"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>Novo</button><button class="btn btn-green"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Confirmar</button><button class="btn btn-red"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>Excluir</button><button class="btn btn-ghost"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>Cancelar</button></div></div></div>
+      <div class="card"><div class="card-head"><span class="card-title">Estados</span></div><div class="card-body"><div class="btn-row"><button class="btn btn-cyan">Normal</button><button class="btn btn-cyan disabled">Disabled</button><button class="btn btn-cyan loading"><div class="btn-spin"></div>Loading</button><button class="btn btn-outline-cyan">Outline</button><button class="btn btn-ghost-cyan">Ghost Cyan</button><button class="btn btn-ghost-red">Ghost Red</button></div></div></div>
+    </section>
+
+    <!-- BADGES -->
+    <section class="section" id="sec-badges">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/></svg></div><div><div class="section-title">Badges</div><div class="section-sub">Status indicators and labels</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body"><div class="row" style="margin-bottom:16px"><span class="badge red"><span class="dot pulse"></span>Ativo</span><span class="badge green"><span class="dot pulse"></span>Concluído</span><span class="badge cyan">Info</span><span class="badge blue"><span class="dot pulse"></span>Processando</span><span class="badge purple">Especial</span><span class="badge orange">Pendente</span><span class="badge yellow">Em análise</span></div><div class="row"><span class="badge sm red">Small</span><span class="badge green">Default</span><span class="badge lg cyan">Large</span></div></div></div>
+    </section>
+
+    <!-- CARDS -->
+    <section class="section" id="sec-cards">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg></div><div><div class="section-title">Cards</div><div class="section-sub">Card components and custom cards</div></div></div>
+      <div class="divider"></div>
+      <div class="col2">
+        <div class="custom-card"><div class="custom-card-head"><div class="custom-card-title">Card Padrão</div></div><div class="custom-card-body"><p style="color:var(--text-2);line-height:1.7">Conteúdo do card com informações relevantes. Perfeito para exibir dados de forma organizada.</p></div><div class="custom-card-foot"><button class="btn btn-sm btn-cyan">Ação</button><button class="btn btn-sm btn-ghost">Cancelar</button></div></div>
+        <div class="custom-card card-glow"><div class="custom-card-head"><div class="custom-card-title">Card com Glow</div></div><div class="custom-card-body"><p style="color:var(--text-2);line-height:1.7">Card destacado com efeito neon cyan para chamar atenção.</p></div><div class="custom-card-foot"><button class="btn btn-sm btn-cyan">Ver Detalhes</button></div></div>
+      </div>
+      <div class="col3" style="margin-top:16px">
+        <div class="custom-card"><div class="card-stat"><div class="card-stat-icon"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="card-stat-val" style="color:var(--neon-red)">R$ 38,4k</div><div class="card-stat-lbl">Receita Mensal</div></div></div>
+        <div class="custom-card"><div class="card-stat"><div class="card-stat-icon"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="card-stat-val" style="color:var(--neon-green)">47</div><div class="card-stat-lbl">Locações Ativas</div></div></div>
+        <div class="custom-card"><div class="card-stat"><div class="card-stat-icon"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div><div class="card-stat-val" style="color:var(--neon-yellow)">124</div><div class="card-stat-lbl">Equipamentos</div></div></div>
+      </div>
+    </section>
+
+    <!-- CAROUSEL -->
+    <section class="section" id="sec-carousel">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><div><div class="section-title">Carousel</div><div class="section-sub">Slideshow component</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body" style="padding:0;overflow:visible">
+        <div class="carousel" id="demo-carousel">
+          <div class="carousel-track">
+            <div class="carousel-slide"><div class="carousel-content"><div class="carousel-title">Alerta Vermelho</div><div class="carousel-desc">Use para notificações críticas que requerem atenção imediata.</div><button class="btn btn-red">Ver Detalhes</button></div></div>
+            <div class="carousel-slide"><div class="carousel-content"><div class="carousel-title">Informação Cyan</div><div class="carousel-desc">indicadores de progresso e métricas importantes.</div><button class="btn btn-cyan">Explorar</button></div></div>
+            <div class="carousel-slide"><div class="carousel-content"><div class="carousel-title">Sucesso Verde</div><div class="carousel-desc">Confirme operações completadas.</div><button class="btn btn-green">Continuar</button></div></div>
+          </div>
+          <button class="carousel-nav carousel-prev" onclick="moveCarousel(-1)"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button>
+          <button class="carousel-nav carousel-next" onclick="moveCarousel(1)"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>
+          <div class="carousel-dots"><button class="carousel-dot active" onclick="goToSlide(0)"></button><button class="carousel-dot" onclick="goToSlide(1)"></button><button class="carousel-dot" onclick="goToSlide(2)"></button></div>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- ICONS -->
+    <section class="section" id="sec-icons">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg></div><div><div class="section-title">Icons</div><div class="section-sub">SVG icon collection</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body"><div class="icon-grid"><div class="icon-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span>home</span></div><div class="icon-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"/></svg><span>file</span></div><div class="icon-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg><span>plus</span></div><div class="icon-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg><span>check</span></div><div class="icon-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg><span>close</span></div><div class="icon-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/></svg><span>search</span></div><div class="icon-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg><span>bell</span></div><div class="icon-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg><span>settings</span></div><div class="icon-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>users</span></div><div class="icon-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span>calendar</span></div><div class="icon-item"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>dollar</span></div></div></div></div>
+    </section>
+
+    <!-- LIST ITEMS -->
+    <section class="section" id="sec-listitems">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg></div><div><div class="section-title">List Items</div><div class="section-sub">List and list item components</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body" style="padding:0">
+        <div class="list-item" style="padding:16px 20px"><div class="list-item-icon"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"/></svg></div><div class="list-item-body"><div class="list-item-title">Locação #3812</div><div class="list-item-sub">Construtora Nova Era • R$ 4.200</div></div><div class="list-item-action"><span class="badge green sm"><span class="dot pulse"></span>Ativo</span></div></div>
+        <div class="list-item-divider"></div>
+        <div class="list-item" style="padding:16px 20px"><div class="list-item-icon" style="background:var(--neon-yellow)"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="list-item-body"><div class="list-item-title">Locação #3811</div><div class="list-item-sub">Rodrigo Mendes • R$ 980</div></div><div class="list-item-action"><span class="badge yellow sm">Pendente</span></div></div>
+        <div class="list-item-divider"></div>
+        <div class="list-item" style="padding:16px 20px"><div class="list-item-icon" style="background:var(--neon-purple)"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div><div class="list-item-body"><div class="list-item-title">Equipamento #E004</div><div class="list-item-sub">Betoneira 400L • Em manutenção</div></div><div class="list-item-action"><span class="badge purple sm">Manutenção</span></div></div>
+      </div></div>
+    </section>
+
+    <!-- SPINNERS -->
+    <section class="section" id="sec-spinners">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg></div><div><div class="section-title">Spinners</div><div class="section-sub">Loading indicators and animations</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-head"><span class="card-title">Ring Spinners</span></div><div class="card-body"><div class="row" style="align-items:center;gap:28px;padding:10px 0">
+        <div style="text-align:center"><div class="spinner sm cyan"></div><div style="font-size:11px;color:var(--text-3);margin-top:8px">SM</div></div>
+        <div style="text-align:center"><div class="spinner md cyan"></div><div style="font-size:11px;color:var(--text-3);margin-top:8px">MD</div></div>
+        <div style="text-align:center"><div class="spinner lg cyan"></div><div style="font-size:11px;color:var(--text-3);margin-top:8px">LG</div></div>
+        <div style="text-align:center"><div class="spinner xl cyan"></div><div style="font-size:11px;color:var(--text-3);margin-top:8px">XL</div></div>
+        <div style="text-align:center"><div class="spinner lg red"></div><div style="font-size:11px;color:var(--text-3);margin-top:8px">Erro</div></div>
+        <div style="text-align:center"><div class="spinner lg green"></div><div style="font-size:11px;color:var(--text-3);margin-top:8px">OK</div></div>
+        <div style="text-align:center"><div class="spinner lg purple"></div><div style="font-size:11px;color:var(--text-3);margin-top:8px">Roxo</div></div>
+        <div style="text-align:center"><div class="spinner lg yellow"></div><div style="font-size:11px;color:var(--text-3);margin-top:8px">Alerta</div></div>
+      </div></div></div>
+      <div class="col2">
+        <div class="card"><div class="card-head"><span class="card-title">Dots</span></div><div class="card-body" style="display:flex;justify-content:center;padding:30px"><div class="spinner-dots"><div class="spinner-dot"></div><div class="spinner-dot"></div><div class="spinner-dot"></div></div></div></div>
+        <div class="card"><div class="card-head"><span class="card-title">Dual Ring</span></div><div class="card-body" style="display:flex;justify-content:center;padding:30px"><div class="spinner-ring"></div></div></div>
+      </div>
+      <div class="card"><div class="card-head"><span class="card-title">Progress Bar Indeterminado</span></div><div class="card-body"><div class="spinner-bar" style="width:100%"><div class="spinner-bar-fill"></div></div></div></div>
+      <div class="card"><div class="card-head"><span class="card-title">Spinner com Label</span></div><div class="card-body"><div class="spinner-wrap"><div class="spinner md cyan"></div><div class="spinner-label">Carregando dados do servidor...</div></div></div></div>
+    </section>
+
+    <!-- STEPPER -->
+    <section class="section" id="sec-stepper">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg></div><div><div class="section-title">Stepper</div><div class="section-sub">Multi-step wizard component</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body">
+        <div class="stepper">
+          <div class="step-item active"><div class="step-circle">1</div><div class="step-label">Dados<br/>Pessoais</div><div class="tl-line" style="position:absolute;top:20px;left:calc(50% + 20px);right:calc(-50% + 20px);height:2px;width:auto;background:var(--bg-border-sub)"></div></div>
+          <div class="step-item"><div class="step-circle">2</div><div class="step-label">Endereço</div></div>
+          <div class="step-item"><div class="step-circle">3</div><div class="step-label">Documentos</div></div>
+          <div class="step-item"><div class="step-circle">4</div><div class="step-label">Confirmação</div></div>
+        </div>
+        <div class="step-panes">
+          <div class="step-pane active" id="step-1"><div class="col2"><div class="fg"><div class="fl">Nome Completo</div><input class="fi" type="text" placeholder="Digite seu nome"/></div><div class="fg"><div class="fl">CPF</div><input class="fi" type="text" placeholder="000.000.000-00"/></div><div class="fg" style="grid-column:1/-1"><div class="fl">Email</div><input class="fi" type="email" placeholder="email@exemplo.com"/></div></div></div>
+          <div class="step-pane" id="step-2"><div class="col2"><div class="fg"><div class="fl">CEP</div><input class="fi" type="text" placeholder="00000-000"/></div><div class="fg"><div class="fl">Cidade</div><input class="fi" type="text" placeholder="São Paulo"/></div><div class="fg" style="grid-column:1/-1"><div class="fl">Endereço</div><input class="fi" type="text" placeholder="Rua, Número, Complemento"/></div></div></div>
+          <div class="step-pane" id="step-3"><div class="fg"><div class="fl">RG</div><input class="fi" type="text" placeholder="00.000.000-0"/></div><div class="fg"><div class="fl">CNH (opcional)</div><input class="fi" type="text" placeholder="Número da CNH"/></div></div>
+          <div class="step-pane" id="step-4"><div style="text-align:center;padding:20px"><div style="font-size:48px;margin-bottom:12px">✅</div><div style="font-size:18px;font-weight:700;margin-bottom:8px">Tudo pronto!</div><div style="color:var(--text-3)">Revise os dados e clique em Concluir.</div></div></div>
+        </div>
+        <div class="step-controls">
+          <button class="btn btn-ghost" id="step-prev-btn" onclick="stepPrev()" disabled>← Anterior</button>
+          <span class="step-counter" id="step-counter-lbl">Passo <span id="step-cur">1</span> de 4</span>
+          <button class="btn btn-cyan" id="step-next-btn" onclick="stepNext()">Próximo →</button>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="section" id="sec-timeline">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><div class="section-title">Timeline</div><div class="section-sub">Chronological event display</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body">
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-left"><div class="tl-dot green"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">Hoje, 09:14</div><div class="tl-title">Locação #3812 aprovada</div><div class="tl-desc">Construtora Nova Era — 5x Andaime Tubular aprovados para retirada.</div></div></div>
+          <div class="tl-item"><div class="tl-left"><div class="tl-dot cyan"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg></div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">Ontem, 16:30</div><div class="tl-title">Equipamento devolvido</div><div class="tl-desc">Betoneira 400L devolvida em bom estado. Sem pendências.</div></div></div>
+          <div class="tl-item"><div class="tl-left"><div class="tl-dot yellow"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">28/03, 11:00</div><div class="tl-title">Manutenção programada</div><div class="tl-desc">Compressor de ar #C007 enviado para revisão preventiva.</div></div></div>
+          <div class="tl-item"><div class="tl-left"><div class="tl-dot red"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">25/03, 08:45</div><div class="tl-title">Atraso na devolução</div><div class="tl-desc">Cliente Rodrigo Mendes com 3 dias de atraso. Contato realizado.</div></div></div>
+          <div class="tl-item"><div class="tl-left"><div class="tl-dot purple"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"/></svg></div><div class="tl-line"></div></div><div class="tl-content"><div class="tl-time">20/03, 14:20</div><div class="tl-title">Novo contrato gerado</div><div class="tl-desc">Fatura #INV-2026-0001 emitida para Construtora Nova Era.</div></div></div>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- RATINGS -->
+    <section class="section" id="sec-ratings">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg></div><div><div class="section-title">Ratings</div><div class="section-sub">Star rating components</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body">
+        <div class="rating-wrap"><span class="rating-label">Avaliação Padrão</span><div class="rating-group" data-rating="0"><div class="star" onclick="setRating(this,1)" onmouseover="hoverRating(this,1)" onmouseout="leaveRating(this)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="star" onclick="setRating(this,2)" onmouseover="hoverRating(this,2)" onmouseout="leaveRating(this)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="star" onclick="setRating(this,3)" onmouseover="hoverRating(this,3)" onmouseout="leaveRating(this)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="star" onclick="setRating(this,4)" onmouseover="hoverRating(this,4)" onmouseout="leaveRating(this)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="star" onclick="setRating(this,5)" onmouseover="hoverRating(this,5)" onmouseout="leaveRating(this)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div></div></div>
+        <div class="rating-wrap"><span class="rating-label">Grande</span><div class="rating-group rating-lg" data-rating="4"><div class="star active" onclick="setRating(this,1)" onmouseover="hoverRating(this,1)" onmouseout="leaveRating(this)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="star active" onclick="setRating(this,2)" onmouseover="hoverRating(this,2)" onmouseout="leaveRating(this)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="star active" onclick="setRating(this,3)" onmouseover="hoverRating(this,3)" onmouseout="leaveRating(this)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="star active" onclick="setRating(this,4)" onmouseover="hoverRating(this,4)" onmouseout="leaveRating(this)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="star" onclick="setRating(this,5)" onmouseover="hoverRating(this,5)" onmouseout="leaveRating(this)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div></div><span class="rating-val">4.0 / 5</span></div>
+        <div class="rating-wrap"><span class="rating-label">Pequeno</span><div class="rating-group rating-sm" data-rating="5"><div class="star active" onclick="setRating(this,1)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="star active" onclick="setRating(this,2)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="star active" onclick="setRating(this,3)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="star active" onclick="setRating(this,4)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="star active" onclick="setRating(this,5)"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div></div><span class="rating-val">5.0 ⭐</span></div>
+      </div></div>
+    </section>
+
+    <!-- AVATARS -->
+    <section class="section" id="sec-avatars">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div><div><div class="section-title">Avatars</div><div class="section-sub">User avatar components</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-head"><span class="card-title">Tamanhos</span></div><div class="card-body"><div class="row" style="align-items:center;gap:16px"><div class="av cyan av-sm">MA</div><div class="av cyan">MA</div><div class="av cyan av-lg">MA</div><div class="av cyan av-xl">MA</div></div></div></div>
+      <div class="card"><div class="card-head"><span class="card-title">Cores</span></div><div class="card-body"><div class="row" style="gap:12px"><div class="av cyan">AC</div><div class="av green">BG</div><div class="av red">CR</div><div class="av purple">DP</div><div class="av yellow">EY</div><div class="av blue">FB</div></div></div></div>
+      <div class="card"><div class="card-head"><span class="card-title">Status</span></div><div class="card-body"><div class="row" style="gap:24px;align-items:center">
+        <div style="text-align:center"><div class="av-online"><div class="av cyan av-lg">ON</div></div><div style="font-size:12px;color:var(--text-3);margin-top:6px">Online</div></div>
+        <div style="text-align:center"><div class="av-online av-busy"><div class="av green av-lg">OC</div></div><div style="font-size:12px;color:var(--text-3);margin-top:6px">Ocupado</div></div>
+        <div style="text-align:center"><div class="av-online av-offline"><div class="av purple av-lg">OF</div></div><div style="font-size:12px;color:var(--text-3);margin-top:6px">Offline</div></div>
+      </div></div></div>
+      <div class="card"><div class="card-head"><span class="card-title">Avatar Group</span></div><div class="card-body"><div class="avatar-group"><div class="av cyan">MA</div><div class="av green">JB</div><div class="av red">LC</div><div class="av purple">RF</div><div class="av blue">SK</div><div class="av av-more">+8</div></div></div></div>
+    </section>
+
+    <!-- TABLES -->
+    <section class="section" id="sec-tables">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 6h18M3 14h18M3 18h18"/></svg></div><div><div class="section-title">Tables</div><div class="section-sub">Data table with sorting</div></div></div>
+      <div class="divider"></div>
+      <div class="card" style="padding:0"><div class="table-wrap">
+        <table class="data-table">
+          <thead><tr>
+            <th><button class="th-sort" data-sort="" onclick="sortTable(0,this)">Cliente <span class="sort-ico">↕</span></button></th>
+            <th><button class="th-sort" data-sort="" onclick="sortTable(1,this)">Equipamento <span class="sort-ico">↕</span></button></th>
+            <th><button class="th-sort" data-sort="" onclick="sortTable(2,this)">Valor <span class="sort-ico">↕</span></button></th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr></thead>
+          <tbody>
+            <tr><td class="td-name">Construtora Nova Era</td><td>Andaime Tubular 10m</td><td class="td-mono">R$ 4.200,00</td><td><span class="badge green sm"><span class="dot pulse"></span>Ativo</span></td><td><button class="btn btn-sm btn-ghost" onclick="showToast('cyan','Editando...','Construtora Nova Era')">Editar</button></td></tr>
+            <tr><td class="td-name">Rodrigo Mendes</td><td>Betoneira 400L</td><td class="td-mono">R$ 980,00</td><td><span class="badge yellow sm">Pendente</span></td><td><button class="btn btn-sm btn-ghost" onclick="showToast('yellow','Atenção!','Rodrigo Mendes com atraso.')">Editar</button></td></tr>
+            <tr><td class="td-name">Engenharia Total</td><td>Compressor AR 300L</td><td class="td-mono">R$ 1.450,00</td><td><span class="badge cyan sm">Em uso</span></td><td><button class="btn btn-sm btn-ghost">Editar</button></td></tr>
+            <tr><td class="td-name">Paulo Ferreira</td><td>Gerador 7,5kVA</td><td class="td-mono">R$ 2.100,00</td><td><span class="badge red sm">Atrasado</span></td><td><button class="btn btn-sm btn-ghost" onclick="showToast('red','Atraso!','Paulo Ferreira com 5 dias de atraso.')">Editar</button></td></tr>
+            <tr><td class="td-name">Obras & Cia</td><td>Escora Metálica 3m</td><td class="td-mono">R$ 620,00</td><td><span class="badge green sm"><span class="dot pulse"></span>Ativo</span></td><td><button class="btn btn-sm btn-ghost">Editar</button></td></tr>
+          </tbody>
+        </table>
+      </div></div>
+    </section>
+
+    <!-- CHIPS & TAGS -->
+    <section class="section" id="sec-chips">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg></div><div><div class="section-title">Chips & Tags</div><div class="section-sub">Selection chips and tag labels</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-head"><span class="card-title">Chips Selecionáveis</span></div><div class="card-body"><div class="chip-wrap"><div class="chip cyan" onclick="toggleChipSel(this)">Andaimes</div><div class="chip green selected" onclick="toggleChipSel(this)">Betoneiras</div><div class="chip red" onclick="toggleChipSel(this)">Compressores</div><div class="chip purple" onclick="toggleChipSel(this)">Geradores</div><div class="chip yellow selected" onclick="toggleChipSel(this)">Escoras</div></div></div></div>
+      <div class="card"><div class="card-head"><span class="card-title">Chips Removíveis</span></div><div class="card-body"><div class="chip-wrap"><div class="chip-removable">Locação Ativa<button class="chip-rm-btn" onclick="removeChip(this)"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div><div class="chip-removable">Pendente<button class="chip-rm-btn" onclick="removeChip(this)"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div><div class="chip-removable">São Paulo<button class="chip-rm-btn" onclick="removeChip(this)"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div></div></div></div>
+      <div class="card"><div class="card-head"><span class="card-title">Tags / Etiquetas</span></div><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px"><span class="tag cyan">ATIVO</span><span class="tag green">APROVADO</span><span class="tag red">CANCELADO</span><span class="tag yellow">PENDENTE</span><span class="tag purple">REVISÃO</span></div></div></div>
+    </section>
+
+    <!-- SKELETON -->
+    <section class="section" id="sec-skeleton">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm0 8a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zm12 0a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg></div><div><div class="section-title">Skeleton Loader</div><div class="section-sub">Content placeholders while loading</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body">
+        <div style="margin-bottom:16px"><button id="skeleton-load-btn" class="btn btn-cyan" onclick="loadSkeleton()">Simular Carregamento</button></div>
+        <div id="skeleton-demo" class="loading">
+          <!-- Skeleton state -->
+          <div class="skel-block">
+            <div class="skel-card"><div class="skel-row"><div class="skel skel-circle" style="width:48px;height:48px"></div><div style="flex:1"><div class="skel" style="height:14px;width:60%;margin-bottom:8px"></div><div class="skel" style="height:12px;width:40%"></div></div></div><div class="skel" style="height:12px;width:100%;margin-bottom:8px"></div><div class="skel" style="height:12px;width:85%;margin-bottom:8px"></div><div class="skel" style="height:12px;width:70%"></div></div>
+            <div class="skel-card"><div class="skel-row"><div class="skel skel-circle" style="width:48px;height:48px"></div><div style="flex:1"><div class="skel" style="height:14px;width:55%;margin-bottom:8px"></div><div class="skel" style="height:12px;width:35%"></div></div></div><div class="skel" style="height:12px;width:100%;margin-bottom:8px"></div><div class="skel" style="height:12px;width:75%"></div></div>
+          </div>
+          <!-- Real content state -->
+          <div class="skel-content">
+            <div class="list-item" style="padding:16px 20px;background:var(--bg-surface);border-radius:12px;margin-bottom:10px"><div class="list-item-icon" style="background:var(--neon-cyan)"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"/></svg></div><div class="list-item-body"><div class="list-item-title">Locação #3812 — Construtora Nova Era</div><div class="list-item-sub">5x Andaime Tubular 10m — R$ 4.200,00</div></div><span class="badge green sm"><span class="dot pulse"></span>Ativo</span></div>
+            <div class="list-item" style="padding:16px 20px;background:var(--bg-surface);border-radius:12px"><div class="list-item-icon" style="background:var(--neon-yellow)"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div class="list-item-body"><div class="list-item-title">Locação #3811 — Rodrigo Mendes</div><div class="list-item-sub">Betoneira 400L — R$ 980,00</div></div><span class="badge yellow sm">Pendente</span></div>
+          </div>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- MODALS -->
+    <section class="section" id="sec-modals">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm0 8a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zm12 0a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg></div><div><div class="section-title">Modals</div><div class="section-sub">Dialog and overlay components</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body"><div class="btn-row"><button class="btn btn-red" onclick="openModal('modal-danger')">Modal Perigo</button><button class="btn btn-cyan" onclick="openModal('modal-info')">Modal Info</button><button class="btn btn-green" onclick="openModal('modal-success')">Modal Sucesso</button><button class="btn btn-purple" onclick="openModal('modal-lg')">Modal Large</button></div></div></div>
+    </section>
+
+    <!-- PROGRESS -->
+    <section class="section" id="sec-progress">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div><div><div class="section-title">Progress Bars</div><div class="section-sub">Progress indicators</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body">
+        <div class="prog-group">
+          <div><div class="prog-hdr"><span>38.400 / 55.000</span><span style="color:var(--neon-cyan);font-weight:700">69%</span></div><div class="prog-track"><div class="prog-bar cyan" style="width:0" data-w="69%"></div></div></div>
+          <div><div class="prog-hdr"><span>91 / 100</span><span style="color:var(--neon-green);font-weight:700">91%</span></div><div class="prog-track"><div class="prog-bar green" style="width:0" data-w="91%"></div></div></div>
+          <div><div class="prog-hdr"><span>18 / 124</span><span style="color:var(--neon-yellow);font-weight:700">14%</span></div><div class="prog-track"><div class="prog-bar yellow" style="width:0" data-w="14%"></div></div></div>
+          <div><div class="prog-hdr"><span>756GB / 1TB</span><span style="color:var(--neon-purple);font-weight:700">75%</span></div><div class="prog-track" style="height:14px;border-radius:7px"><div class="prog-bar purple" style="width:0" data-w="75%"></div></div></div>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- POPOVERS -->
+    <section class="section" id="sec-popovers">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/></svg></div><div><div class="section-title">Popovers</div><div class="section-sub">Contextual popup content</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body"><div class="row" style="justify-content:center;padding:40px 0;gap:50px">
+        <div class="popover-wrap"><button class="btn btn-cyan" onclick="togglePop('pop1')">Popover Cyan</button><div class="popover pop-bottom" id="pop1"><div class="popover-title">Z-index 2000</div><div class="popover-text">Este popover está no topo de todos os elementos. Clique fora para fechar.</div></div></div>
+        <div class="popover-wrap"><button class="btn btn-ghost" onclick="togglePop('pop2')">Popover Menu</button><div class="popover pop-bottom" id="pop2" style="min-width:200px"><div class="popover-title">Ações Rápidas</div><div style="display:flex;flex-direction:column;gap:8px"><div style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='var(--bg-surface)'" onmouseout="this.style.background='transparent'"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>Editar</div><div style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='var(--bg-surface)'" onmouseout="this.style.background='transparent'"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>Duplicar</div><div style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='var(--bg-surface)'" onmouseout="this.style.background='transparent'"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>Excluir</div></div></div></div>
+      </div></div></div>
+    </section>
+
+    <!-- TABS -->
+    <section class="section" id="sec-tabs">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9h8M8 13h6M3 5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/></svg></div><div><div class="section-title">Tabs</div><div class="section-sub">Tab navigation components</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-head"><span class="card-title">Tabs Coloridas</span></div><div class="card-body">
+        <div class="htabs-color">
+          <div class="ht-color active red" onclick="switchH('c',0,this,'red')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>Resumo</div>
+          <div class="ht-color" onclick="switchH('c',1,this,'cyan')">Locações</div>
+          <div class="ht-color" onclick="switchH('c',2,this,'green')">Clientes</div>
+          <div class="ht-color" onclick="switchH('c',3,this,'yellow')">Estoque</div>
+          <div class="ht-color" onclick="switchH('c',4,this,'purple')">Alertas</div>
+        </div>
+        <div class="tab-pane active" id="hc-0"><div class="tab-demo"><strong>Resumo Executivo</strong> — KPIs principais do sistema.</div></div>
+        <div class="tab-pane" id="hc-1"><div class="tab-demo"><strong>Locações</strong> — Contratos ativos e pendentes.</div></div>
+        <div class="tab-pane" id="hc-2"><div class="tab-demo"><strong>Clientes</strong> — Base de clientes ativa.</div></div>
+        <div class="tab-pane" id="hc-3"><div class="tab-demo"><strong>Estoque</strong> — Disponibilidade de equipamentos.</div></div>
+        <div class="tab-pane" id="hc-4"><div class="tab-demo"><strong>Alertas</strong> — 3 devoluções atrasadas.</div></div>
+      </div></div>
+    </section>
+
+    <!-- TOOLTIPS -->
+    <section class="section" id="sec-tooltips">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><div class="section-title">Tooltips</div><div class="section-sub">Hover information tooltips</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body"><div class="row" style="justify-content:center;padding:40px 0;gap:20px">
+        <button class="btn btn-ghost" data-tip="Tooltip padrão">Padrão</button>
+        <button class="btn btn-red" data-tip="red">Vermelho</button>
+        <button class="btn btn-green" data-tip="green">Verde</button>
+        <button class="btn btn-cyan" data-tip="cyan">Cyan</button>
+        <button class="btn btn-purple" data-tip="purple">Roxo</button>
+        <button class="btn btn-yellow" data-tip="yellow">Amarelo</button>
+      </div></div></div>
+    </section>
+
+    <!-- TYPOGRAPHY -->
+    <section class="section" id="sec-typography">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8m-8 6h16"/></svg></div><div><div class="section-title">Typography</div><div class="section-sub">Text styles and fonts</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-head"><span class="card-title">Fontes Disponíveis</span></div><div class="card-body">
+        <div class="col2">
+          <div class="font-card">
+            <div class="font-card-title"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8m-8 6h16"/></svg>Inter</div>
+            <div class="font-sample font-inter">Dashboard SisLoc</div>
+            <div class="font-alphabet font-inter">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9</div>
+            <div class="font-meta"><span class="font-meta-item">Sans-serif</span><span class="font-meta-item">Principal</span></div>
+          </div>
+          <div class="font-card">
+            <div class="font-card-title"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>JetBrains Mono</div>
+            <div class="font-sample font-jetbrains">$ R$ 38.400,00</div>
+            <div class="font-alphabet font-jetbrains">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9</div>
+            <div class="font-meta"><span class="font-meta-item">Monospace</span><span class="font-meta-item">Código</span></div>
+          </div>
+          <div class="font-card">
+            <div class="font-card-title"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8m-8 6h16"/></svg>Open Sans</div>
+            <div class="font-sample font-opensans">Gerenciamento de Locações</div>
+            <div class="font-alphabet font-opensans">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9</div>
+            <div class="font-meta"><span class="font-meta-item">Sans-serif</span><span class="font-meta-item">Alternativa</span></div>
+          </div>
+          <div class="font-card">
+            <div class="font-card-title"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8m-8 6h16"/></svg>Poppins</div>
+            <div class="font-sample font-poppins">Sistema de Locação</div>
+            <div class="font-alphabet font-poppins">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9</div>
+            <div class="font-meta"><span class="font-meta-item">Sans-serif</span><span class="font-meta-item">Moderna</span></div>
+          </div>
+          <div class="font-card">
+            <div class="font-card-title"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8m-8 6h16"/></svg>Lilita One</div>
+            <div class="font-sample font-lilita">SisLoc 3.0</div>
+            <div class="font-alphabet font-lilita">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9</div>
+            <div class="font-meta"><span class="font-meta-item">Display</span><span class="font-meta-item">Títulos</span></div>
+          </div>
+        </div>
+      </div></div>
+      <div class="card"><div class="card-head"><span class="card-title">Hierarquia de Textos</span></div><div class="card-body">
+        <div class="type-sample"><div class="type-lbl">Heading 1</div><div class="type-h1">Dashboard SisLoc 3.0</div></div>
+        <div class="type-sample"><div class="type-lbl">Heading 2</div><div class="type-h2">Gerenciamento de Locações</div></div>
+        <div class="type-sample"><div class="type-lbl">Heading 3</div><div class="type-h3">Estatísticas do Mês</div></div>
+        <div class="type-sample"><div class="type-lbl">Body Text</div><div class="type-body">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</div></div>
+        <div class="type-sample"><div class="type-lbl">Small Text</div><div class="type-small">Texto secundário usado para descrições e informações complementares no sistema.</div></div>
+        <div class="type-sample"><div class="type-lbl">Extra Small / Label</div><div class="type-xs">© 2026 SisLoc • Versão 3.0 Neon • Todos os direitos reservados</div></div>
+      </div></div>
+    </section>
+
+    <!-- FORM INPUTS -->
+    <section class="section" id="sec-forminputs">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></div><div><div class="section-title">Form Inputs</div><div class="section-sub">Basic form input components</div></div></div>
+      <div class="divider"></div>
+      <div class="col2">
+        <div class="card"><div class="card-body">
+          <div class="fg"><div class="fl">Text Input</div><input class="fi" type="text" placeholder="Digite seu texto..."/></div>
+          <div class="fg"><div class="fl">Email</div><input class="fi" type="email" placeholder="email@exemplo.com"/></div>
+          <div class="fg"><div class="fl">Password</div><input class="fi" type="password" placeholder="••••••••"/></div>
+          <div class="fg"><div class="fl">Textarea</div><textarea class="fi" rows="4" placeholder="Digite sua mensagem..."></textarea></div>
+          <div class="fg"><div class="fl">Select</div><select class="fi"><option>Opção 1</option><option>Opção 2</option><option>Opção 3</option></select></div>
+        </div></div>
+        <div class="card"><div class="card-body">
+          <div class="fg"><div class="fl">Disabled</div><input class="fi" type="text" value="Campo desabilitado" disabled/></div>
+          <div class="fg"><div class="fl">Focus Estado</div><input class="fi" type="text" value="Clique aqui" style="border-color:var(--neon-cyan);box-shadow:0 0 0 3px var(--neon-cyan-glow)"/></div>
+          <div class="fg"><div class="fl">Com Ícone</div><div style="position:relative"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--text-3)"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35"/></svg><input class="fi" type="text" placeholder="Buscar..." style="padding-left:44px"/></div></div>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- CHECKBOX & RADIO -->
+    <section class="section" id="sec-checkboxradio">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><div class="section-title">Checkbox & Radio</div><div class="section-sub">Selection controls</div></div></div>
+      <div class="divider"></div>
+      <div class="col2">
+        <div class="card"><div class="card-body">
+          <div class="type-lbl">Checkbox</div>
+          <div class="chk-group">
+            <label class="chk-row"><input type="checkbox" checked/><div class="chk-box"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><div class="chk-lbl"><strong>Notificações por email</strong><small>Receba alertas sobre locações vencendo</small></div></label>
+            <label class="chk-row"><input type="checkbox"/><div class="chk-box"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div><div class="chk-lbl"><strong>Relatório semanal</strong><small>Resumo enviado toda segunda-feira</small></div></label>
+          </div>
+        </div></div>
+        <div class="card"><div class="card-body">
+          <div class="type-lbl">Radio</div>
+          <div class="chk-group">
+            <label class="chk-row"><input type="radio" name="plan" checked/><div class="radio-box"></div><div class="chk-lbl"><strong>Plano Mensal</strong><small>R$ 99/mês</small></div></label>
+            <label class="chk-row"><input type="radio" name="plan"/><div class="radio-box"></div><div class="chk-lbl"><strong>Plano Trimestral</strong><small>R$ 89/mês (Economia de 10%)</small></div></label>
+            <label class="chk-row"><input type="radio" name="plan"/><div class="radio-box"></div><div class="chk-lbl"><strong>Plano Anual</strong><small>R$ 79/mês (Economia de 20%)</small></div></label>
+          </div>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- FILE INPUT -->
+    <section class="section" id="sec-fileinput">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg></div><div><div class="section-title">File Input</div><div class="section-sub">File upload components</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body">
+        <div class="file-drop" onclick="this.querySelector('input').click()"><div class="file-drop-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg></div><div class="file-drop-title">Arraste arquivos aqui ou clique para selecionar</div><div class="file-drop-sub">PNG, JPG, PDF até 10MB <span>ou clique para navegar</span></div><input type="file" style="display:none" multiple/></div>
+        <div class="file-preview"><div class="file-item"><div class="file-item-icon"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"/></svg></div><div><div class="file-item-name">contrato.pdf</div><div class="file-item-size">2.4 MB</div></div><button class="file-item-rm"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div><div class="file-item"><div class="file-item-icon" style="background:var(--neon-blue)"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><div><div class="file-item-name">foto-equipamento.jpg</div><div class="file-item-size">1.8 MB</div></div><button class="file-item-rm"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div></div>
+      </div></div>
+    </section>
+
+    <!-- VALIDATIONS -->
+    <section class="section" id="sec-validations">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div><div class="section-title">Validations</div><div class="section-sub">Form validation states</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body">
+        <div class="fg"><div class="fl">Sucesso</div><input class="fi" type="text" value="valor válido" style="border-color:var(--neon-green);box-shadow:0 0 0 4px var(--neon-green-glow)"/><div style="font-size:12.5px;margin-top:6px;display:flex;align-items:center;gap:5px;color:var(--neon-green)"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Campo validado com sucesso!</div></div>
+        <div class="fg"><div class="fl">Erro</div><input class="fi" type="text" value="valor inválido" style="border-color:var(--neon-red);box-shadow:0 0 0 4px var(--neon-red-glow)"/><div style="font-size:12.5px;margin-top:6px;display:flex;align-items:center;gap:5px;color:var(--neon-red)"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>Este campo é obrigatório.</div></div>
+        <div class="fg"><div class="fl">Dica</div><input class="fi" type="text" placeholder="Digite seu CPF"/><div style="font-size:12.5px;margin-top:6px;display:flex;align-items:center;gap:5px;color:var(--text-4)"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Use o formato: 000.000.000-00</div></div>
+      </div></div>
+    </section>
+
+    <!-- DATE TIME -->
+    <section class="section" id="sec-datetime">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><div><div class="section-title">Date Time Pickers</div><div class="section-sub">Date and time selection</div></div></div>
+      <div class="divider"></div>
+      <div class="card"><div class="card-body">
+        <div class="col2">
+          <div class="fg"><div class="fl">Data</div><div class="date-input"><input type="date"/></div></div>
+          <div class="fg"><div class="fl">Hora</div><div class="date-input"><input type="time"/></div></div>
+          <div class="fg" style="grid-column:1/-1"><div class="fl">Data e Hora</div><div class="date-input"><input type="datetime-local"/></div></div>
+          <div class="fg" style="grid-column:1/-1"><div class="fl">Período</div><div class="date-range"><div class="date-input" style="flex:1"><input type="date"/></div><div class="date-range-sep">até</div><div class="date-input" style="flex:1"><input type="date"/></div></div></div>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- INVOICE -->
+    <section class="section" id="sec-invoice">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"/></svg></div><div><div class="section-title">Invoice</div><div class="section-sub">Invoice document template</div></div></div>
+      <div class="divider"></div>
+      <div class="invoice">
+        <div class="invoice-head">
+          <div class="invoice-logo"><div class="invoice-logo-ico"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0H5m5-4h4"/></svg></div><div><div class="invoice-logo-name">SisLoc</div><div class="invoice-logo-sub">Sistema de Locação v3.0</div></div></div>
+          <div class="invoice-num"><div class="invoice-num-lbl">Fatura N°</div><div class="invoice-num-val">#INV-2026-0001</div></div>
+        </div>
+        <div class="invoice-body">
+          <div class="invoice-parties">
+            <div><div class="invoice-party-label">De</div><div class="invoice-party-name">SisLoc Sistemas</div><div class="invoice-party-detail">Rua das Flores, 123<br/>São Paulo - SP 01234-567<br/>CNPJ: 12.345.678/0001-90</div></div>
+            <div><div class="invoice-party-label">Para</div><div class="invoice-party-name">Construtora Nova Era</div><div class="invoice-party-detail">Av. Brasil, 456<br/>Campinas - SP 13020-123<br/>CNPJ: 98.765.432/0001-10</div></div>
+          </div>
+          <table class="invoice-table">
+            <thead><tr><th>Descrição</th><th>Qtd</th><th>Valor Unit.</th><th>Total</th></tr></thead>
+            <tbody>
+              <tr><td class="item-name">Andaime Tubular 10m</td><td>5</td><td class="item-price">R$ 840,00</td><td class="item-price">R$ 4.200,00</td></tr>
+              <tr><td class="item-name">Frete e Entrega</td><td>1</td><td class="item-price">R$ 350,00</td><td class="item-price">R$ 350,00</td></tr>
+              <tr><td class="item-name">Seguro do Equipamento</td><td>1</td><td class="item-price">R$ 180,00</td><td class="item-price">R$ 180,00</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="invoice-foot">
+          <div class="invoice-notes"><div class="invoice-notes-title">Observações</div><div class="invoice-notes-text">Locação válida por 15 dias. Garantia de R$ 2.000 necessária.</div></div>
+          <div class="invoice-total"><div class="invoice-total-label">Total a Pagar</div><div class="invoice-total-val">R$ 4.730,00</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALENDAR -->
+    <section class="section" id="sec-calendar">
+      <div class="section-header"><div class="section-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><div><div class="section-title">Calendar</div><div class="section-sub">Calendar with events</div></div></div>
+      <div class="divider"></div>
+      <div class="card" style="padding:0">
+        <div class="cal">
+          <div class="cal-head"><div class="cal-month">Março 2026</div><div class="cal-nav"><button class="cal-nav-btn"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg></button><button class="cal-nav-btn"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button></div></div>
+          <div class="cal-grid">
+            <div class="cal-dow">Dom</div><div class="cal-dow">Seg</div><div class="cal-dow">Ter</div><div class="cal-dow">Qua</div><div class="cal-dow">Qui</div><div class="cal-dow">Sex</div><div class="cal-dow">Sáb</div>
+            <div class="cal-cell cal-other"><div class="cal-day">23</div></div>
+            <div class="cal-cell cal-other"><div class="cal-day">24</div></div>
+            <div class="cal-cell cal-other"><div class="cal-day">25</div></div>
+            <div class="cal-cell cal-other"><div class="cal-day">26</div></div>
+            <div class="cal-cell cal-other"><div class="cal-day">27</div></div>
+            <div class="cal-cell cal-other"><div class="cal-day">28</div></div>
+            <div class="cal-cell"><div class="cal-day">1</div></div>
+            <div class="cal-cell"><div class="cal-day">2</div><div class="cal-events"><div class="cal-event cyan">Reunião 14h</div></div></div>
+            <div class="cal-cell"><div class="cal-day">3</div></div>
+            <div class="cal-cell"><div class="cal-day">4</div></div>
+            <div class="cal-cell"><div class="cal-day">5</div><div class="cal-events"><div class="cal-event green">Entrega 10h</div></div></div>
+            <div class="cal-cell"><div class="cal-day">6</div></div>
+            <div class="cal-cell"><div class="cal-day">7</div><div class="cal-events"><div class="cal-event yellow">Manutenção</div></div></div>
+            <div class="cal-cell"><div class="cal-day">8</div></div>
+            <div class="cal-cell"><div class="cal-day">9</div><div class="cal-events"><div class="cal-event red">Vencimento</div></div></div>
+            <div class="cal-cell cal-today"><div class="cal-day">10</div><div class="cal-events"><div class="cal-event cyan">Hoje</div><div class="cal-event green">Retirada</div></div></div>
+            <div class="cal-cell"><div class="cal-day">11</div></div>
+            <div class="cal-cell"><div class="cal-day">12</div></div>
+            <div class="cal-cell"><div class="cal-day">13</div><div class="cal-events"><div class="cal-event yellow">Manutenção</div></div></div>
+            <div class="cal-cell"><div class="cal-day">14</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-danger" onclick="closeModalOutside(event,'modal-danger')"><div class="modal modal-sm"><div class="modal-header" style="justify-content:flex-end;border-bottom:none;padding-bottom:0;background:var(--neon-red)"><button class="modal-close" onclick="closeModal('modal-danger')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div><div class="modal-body" style="text-align:center;padding-top:8px"><div style="width:64px;height:64px;border-radius:16px;background:var(--neon-red);display:grid;place-items:center;margin:0 auto 20px"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" width="28" height="28"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></div><div style="font-size:20px;font-weight:800;margin-bottom:10px">Excluir item?</div><div style="font-size:14px;color:var(--text-2);line-height:1.7">Esta ação não pode ser desfeita.</div></div><div class="modal-footer" style="justify-content:center;gap:12px"><button class="btn btn-ghost" onclick="closeModal('modal-danger')">Cancelar</button><button class="btn btn-red" onclick="closeModal('modal-danger')">Confirmar</button></div></div></div>
+<div class="modal-overlay" id="modal-info" onclick="closeModalOutside(event,'modal-info')"><div class="modal modal-md"><div class="modal-header"><div class="modal-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div style="flex:1"><div class="modal-title">Informações</div><div class="modal-sub">Design System 3.0 White Rabbit</div></div><button class="modal-close" onclick="closeModal('modal-info')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div><div class="modal-body"><p style="color:var(--text-2);line-height:1.8">Sistema completo de gestão de locação com interface moderna em tema white rabbit com cores neon vibrantes.</p></div><div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-info')">Fechar</button><button class="btn btn-cyan" onclick="closeModal('modal-info')">Documentação</button></div></div></div>
+<div class="modal-overlay" id="modal-success" onclick="closeModalOutside(event,'modal-success')"><div class="modal modal-sm"><div class="modal-header" style="justify-content:flex-end;border-bottom:none;padding-bottom:0;background:var(--neon-green)"><button class="modal-close" onclick="closeModal('modal-success')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div><div class="modal-body" style="text-align:center;padding-top:8px"><div style="width:64px;height:64px;border-radius:16px;background:var(--neon-green);display:grid;place-items:center;margin:0 auto 20px"><svg fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" width="28" height="28"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><div style="font-size:20px;font-weight:800;margin-bottom:10px">Operação Concluída!</div><div style="font-size:14px;color:var(--text-2);line-height:1.7">Locação criada com sucesso.</div></div><div class="modal-footer" style="justify-content:center"><button class="btn btn-green" onclick="closeModal('modal-success')">OK</button></div></div></div>
+<div class="modal-overlay" id="modal-lg" onclick="closeModalOutside(event,'modal-lg')"><div class="modal modal-lg"><div class="modal-header"><div class="modal-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"/></svg></div><div style="flex:1"><div class="modal-title">Modal Large</div><div class="modal-sub">Espaço extra para conteúdo detalhado</div></div><button class="modal-close" onclick="closeModal('modal-lg')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div><div class="modal-body"><p style="color:var(--text-2);line-height:1.8;margin-bottom:16px">Este modal large é perfeito para formulários extensos, tabelas de dados ou qualquer conteúdo que precise de mais espaço.</p><div class="col2"><div class="fg"><div class="fl">Campo 1</div><input class="fi" type="text"/></div><div class="fg"><div class="fl">Campo 2</div><input class="fi" type="text"/></div><div class="fg"><div class="fl">Campo 3</div><input class="fi" type="text"/></div><div class="fg"><div class="fl">Campo 4</div><input class="fi" type="text"/></div></div></div><div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('modal-lg')">Cancelar</button><button class="btn btn-purple" onclick="closeModal('modal-lg')">Salvar</button></div>
+</body><script src="scripts.js"></script></html>

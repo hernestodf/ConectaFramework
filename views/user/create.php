@@ -1,0 +1,159 @@
+<?php require dirname(__DIR__) . '/layout/header.php'; ?>
+
+<header id="topbar">
+  <div class="tb-left">
+    <div class="breadcrumb">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+      </svg>
+      <span>Usuários</span>
+      <span class="sep">/</span>
+      <span class="cur">Novo</span>
+    </div>
+  </div>
+  <div class="tb-right">
+    <button class="icon-btn" onclick="openRight()" title="Perfil">
+      <?php $user = \App\Auth\Rbac::getUser(); ?>
+      <?php if ($user): ?>
+      <div class="avatar-small"><?= strtoupper(substr($user['name'] ?? 'U', 0, 1)) ?></div>
+      <?php else: ?>
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+      </svg>
+      <?php endif; ?>
+    </button>
+    <button class="icon-btn" title="Notificações">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<?php require dirname(__DIR__) . '/layout/sidebar.php'; ?>
+
+<div id="main">
+  <div class="content">
+    <section class="section active" id="sec-users-create">
+      <div class="section-header">
+        <div class="section-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2.236-3.18a3 3 0 104.472 0M15 12a6 6 0 11-12 0 6 6 0 0112 0z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="section-title">Novo Usuário</div>
+          <div class="section-sub">Cadastrar usuário</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Dados do Usuário</span>
+        </div>
+        <div class="card-body">
+          <?php if (!empty($error)): ?>
+          <div class="alert red">
+            <div class="alert-ico">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <div class="alert-body">
+              <div class="alert-title">Erro</div>
+              <div class="alert-desc"><?= htmlspecialchars($error) ?></div>
+            </div>
+          </div>
+          <?php endif; ?>
+          
+          <form method="POST" action="<?= $baseUrl ?>/users/store">
+            <input type="hidden" name="_csrf_token" value="<?= \App\Core\Csrf::getToken() ?>"/>
+            
+            <div class="fg">
+              <div class="fl">Nome *</div>
+              <input type="text" name="nome" class="fi" value="<?= htmlspecialchars($data['name'] ?? '') ?>" placeholder="Nome completo" required>
+            </div>
+            
+            <div class="fg">
+              <div class="fl">Email *</div>
+              <input type="email" name="email" class="fi" value="<?= htmlspecialchars($data['email'] ?? '') ?>" placeholder="email@exemplo.com" required>
+            </div>
+            
+            <div class="col2">
+              <div class="fg">
+                <div class="fl">Telefone</div>
+                <input type="text" name="telefone" class="fi" data-mask="(XX) XXXX-XXXX" value="<?= htmlspecialchars($data['telefone'] ?? '') ?>" placeholder="(XX) XXXX-XXXX">
+              </div>
+              <div class="fg">
+                <div class="fl">Celular</div>
+                <input type="text" name="celular" class="fi" data-mask="(XX) XXXXX-XXXX" value="<?= htmlspecialchars($data['celular'] ?? '') ?>" placeholder="(XX) XXXXX-XXXX">
+              </div>
+            </div>
+            
+            <div class="fg">
+              <div class="fl">CEP</div>
+              <input type="text" name="cep" class="fi" data-mask="XXXXX-XXX" value="<?= htmlspecialchars($data['cep'] ?? '') ?>" placeholder="XXXXX-XXX">
+            </div>
+            
+            <div class="fg">
+              <div class="fl">Senha</div>
+              <input type="password" name="password" class="fi" placeholder="Senha (padrão: 123456)">
+            </div>
+            
+            <div class="col2">
+              <div class="fg">
+                <div class="fl">Função</div>
+                <select name="role" class="fi">
+                  <option value="user" <?= ($data['role'] ?? 'user') == 'user' ? 'selected' : '' ?>>Usuário</option>
+                  <option value="manager" <?= ($data['role'] ?? '') == 'manager' ? 'selected' : '' ?>>Gerente</option>
+                  <option value="admin" <?= ($data['role'] ?? '') == 'admin' ? 'selected' : '' ?>>Admin</option>
+                </select>
+              </div>
+              <div class="fg">
+                <div class="fl">Status</div>
+                <select name="status" class="fi">
+                  <option value="1" <?= ($data['status'] ?? 1) == 1 ? 'selected' : '' ?>>Ativo</option>
+                  <option value="0" <?= ($data['status'] ?? '') == '0' ? 'selected' : '' ?>>Inativo</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="flex-row-gap" style="margin-top:16px">
+              <a href="<?= $baseUrl ?>/users" class="btn btn-red">Cancelar</a>
+              <button type="submit" class="btn btn-cyan">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+// Máscaras automáticas
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('[data-mask]').forEach(function(input) {
+    input.addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      const mask = e.target.dataset.mask;
+      let result = '';
+      let i = 0;
+      
+      for (let char of mask) {
+        if (char === 'X') {
+          if (value[i] !== undefined) {
+            result += value[i];
+            i++;
+          }
+        } else {
+          result += char;
+        }
+      }
+      e.target.value = result;
+    });
+  });
+});
+</script>
+
+<?php require dirname(__DIR__) . '/layout/footer.php'; ?>

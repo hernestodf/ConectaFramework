@@ -1,0 +1,28 @@
+# Dependencies
+/vendor/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+/storage/logs/
+*.log
+
+# Database
+/storage/*.sqlite
+/database/dump*.sql
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Cache
+/storage/cache/
