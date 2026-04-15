@@ -45,19 +45,19 @@ class Request
         return str_contains($baseUrl, 'localhost') || str_contains($baseUrl, '127.0.0.1');
     }
 
-    public function get(string $key = null, $default = null)
+    public function get(?string $key = null, $default = null)
     {
         if ($key === null) return $this->get;
         return $this->get[$key] ?? $default;
     }
 
-    public function post(string $key = null, $default = null)
+    public function post(?string $key = null, $default = null)
     {
         if ($key === null) return $this->post;
         return $this->post[$key] ?? $default;
     }
 
-    public function input(string $key = null, $default = null)
+    public function input(?string $key = null, $default = null)
     {
         if ($key === null) return $this->body;
         

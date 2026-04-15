@@ -72,7 +72,7 @@ class Logger
         }
     }
 
-    public static function getLogs(string $date = null): array
+    public static function getLogs(?string $date = null): array
     {
         self::init();
 

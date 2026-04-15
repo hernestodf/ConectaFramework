@@ -40,7 +40,7 @@ class Response
         return $response;
     }
 
-    public static function download(string $file, string $name = null): self
+    public static function download(string $file, ?string $name = null): self
     {
         $name = $name ?? basename($file);
         $response = new self(file_get_contents($file));
