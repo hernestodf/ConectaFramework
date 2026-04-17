@@ -1,6 +1,9 @@
 # Dependencies
 /vendor/
 
+# Generated agents (created by composer scripts)
+/agents/
+
 # Environment
 .env
 .env.local

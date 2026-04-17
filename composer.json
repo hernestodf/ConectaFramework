@@ -1,6 +1,6 @@
 {
     "name": "hernestodf/conectaframework",
-    "description": "ConectaFramework - PHP MVC Framework with RBAC",
+    "description": "ConectaFramework - PHP MVC Framework with RBAC, Agents System",
     "type": "project",
     "license": "MIT",
     "require": {
@@ -11,5 +11,17 @@
             "App\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "scripts": {
+        "post-install-cmd": [
+            "@prepare-agents"
+        ],
+        "post-update-cmd": [
+            "@prepare-agents"
+        ],
+        "prepare-agents": "mkdir -p agents && cp -r docs/agents/* agents/ 2>/dev/null || true"
+    },
+    "extra": {
+        "agents-dir": "agents"
+    }
 }
