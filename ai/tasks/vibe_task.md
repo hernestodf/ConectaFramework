@@ -1,10 +1,7 @@
 # Template de Tarefa Vibe - ConectaFramework
 
 ## Como Usar
-
-```
-Copie este template e preencha com os detalhes da tarefa
-```
+Copie este template e preencha com os detalhes da tarefa.
 
 ---
 
@@ -17,224 +14,151 @@ Copie este template e preencha com os detalhes da tarefa
 
 ---
 
-## 🎯 INTERPRETAÇÃO (VIBE INTERPRETER)
+## 🎯 FASE 1: INTERPRETAÇÃO (VIBE)
 
 **Pedido Original:**
-> [texto exato do usuário]
+> [texto exato]
 
-**Tipo Classificado:**
+**Tipo:**
 - [ ] Nova Funcionalidade
 - [ ] Melhoria Visual
-- [ ] Bug/Correção
+- [ ] Bug
 - [ ] Refatoração
-- [ ] Vaga/Ambígua
+- [ ] Vaga
 
 **Entendido Como:**
-- **Funcionalidade:** [o que parece querer]
-- **Usuário Alvo:** [quem vai usar]
-- **Contexto:** [onde/como]
+- **Funcionalidade:** [descrição]
 - **Urgência:** [alta/média/baixa]
 - **Complexidade:** [simples/médio/complexo]
 
-**Perguntas de Clarificação (se vaga):**
-1. [pergunta 1]
-2. [pergunta 2]
-3. [pergunta 3]
+---
 
-**Próximo:** PLANNER
+## 📋 FASE 2: PLANO (PLANNER)
+
+### Etapas (máx 10)
+
+| # | Etapa | Arquivos | Dep | Risco |
+|---|-------|----------|-----|-------|
+| 1 | | | - | 🟢 |
+| 2 | | | #1 | 🟡 |
+| ... | | | | |
+
+### Arquivos
+- **Modificar:** [lista]
+- **Criar:** [lista]
+
+### Riscos: [lista]
+
+**Status:** ✅ APROVADO
 
 ---
 
-## 🎨 DESIGN (DESIGNER)
+## 🔍 FASE 3: ANÁLISE (ANALISADOR)
 
-**Layout Definido:**
-- **Estrutura:** [single page/dashboard/crud/etc]
-- **Componentes:** [lista]
-- **Estilo:** [seguir existente/criar novo]
-- **Responsivo:** [sim/não]
-
-**Arquivos de Referência:**
-- `/docs/design_system.md`
-- `/public/css/styles.css`
-
-**Próximo:** PLANNER
-
----
-
-## 📋 PLANO (PLANNER)
-
-### Etapas
-
-| # | Etapa | Arquivos | Dep | Complexidade |
-|---|-------|----------|-----|---------------|
-| 1 | [nome] | [lista] | - | 🟢 |
-| 2 | [nome] | [lista] | #1 | 🟡 |
-| ... | ... | ... | ... | ... |
-
-### Dependências
-- [lista]
-
-### Arquivos a Modificar
-- [lista]
-
-### Arquivos a Criar
-- [lista]
-
-### Riscos
-- [lista]
-
-### Rollback
-- [procedimentos]
-
-**Status Plano:** ✅ APROVADO
-**Próximo:** ANALISADOR
-
----
-
-## 🔍 ANÁLISE (ANALISADOR + DEPENDENCY)
-
-**MVC Mapeado:**
+**MVC:**
 - Controller: [nome]
 - Service: [nome]
 - Repository: [nome]
-- Model: [nome]
 - Views: [lista]
 
-**Dependências:**
-- [árvore de dependências]
-
 **Impacto:** [baixo/médio/alto]
+**Risco (1-10):** [n]
 
-**Próximo:** GUARDIÃO
-
----
-
-## 🛡️ VALIDAÇÃO (GUARDIÃO + SECURITY + LOGIC)
-
-### Guardião
-- **Decisão:** ✅ APROVADO / ❌ BLOQUEADO
-- **Motivo:** [explicação]
-
-### Security
-- **Vulnerabilidades:** [nenhuma/encontradas]
-- **Nível:** [baixo/médio/alto/crítico]
-
-### Logic Validator
-- **Erros Lógicos:** [nenhum/encontrados]
-- **Correções:** [lista]
-
-**Próximo:** IMPLEMENTADOR
+**Decisão:** ✅ APROVADO / ❌ BLOQUEADO
 
 ---
 
-## ⚙️ EXECUÇÃO (IMPLEMENTADOR)
+## 🔒 FASE 4: SEGURANÇA (SECURITY)
+
+**Vulnerabilidades:** [nenhuma/encontradas]
+**Nível:** [baixo/médio/alto/crítico]
+
+---
+
+## ⚙️ FASE 5: EXECUÇÃO (IMPLEMENTADOR)
 
 ### Código Gerado
-
 ```php
-[seu código aqui]
+[código aqui]
 ```
 
-### Componentes Criados
-- [lista]
-
-### Arquivos Modificados
-- [lista]
-
-**Próximo:** COMPONENT + STYLE
+**Arquivos:** [lista]
 
 ---
 
-## 🧩 COMPONENTIZAÇÃO (COMPONENT ENGINEER)
+## 🎨 FASE 6: VISUAL (DESIGN_QA)
 
-**Componentes Extraídos:**
-- [lista]
+**Score Visual:** [X/60]
 
-**Reutilização:** [%]
+| Dimensão | Score |
+|----------|-------|
+| Espaçamento | /10 |
+| Cores | /10 |
+| Tipografia | /10 |
+| Componentes | /10 |
+| Responsividade | /10 |
+| Acessibilidade | /10 |
+
+**Status:** ✅ Aprovado / ❌ Bloqueado
 
 ---
 
-## 🎨 PADRONIZAÇÃO (STYLE ENFORCER)
+## 💾 FASE 7: DADOS (DATABASE)
 
-**Correções:**
-- [lista]
+**Schema:**
+```sql
+[SQL aqui]
+```
 
 ---
 
-## 🧪 TESTES (TESTADOR + TEST GENERATOR)
+## 🧪 FASE 8: TESTES (TEST)
 
-**Testes:**
-- [lista]
-
+**Testes:** [lista]
 **Cobertura:** [%]
 
----
-
-## 👁️ VALIDAÇÃO (VISUAL QA)
-
-**Score Visual:** [X/10]
-
-**Problemas:**
-- [lista]
+**Status:** ✅ Passou / ❌ Falhou
 
 ---
 
-## ⚡ PERFORMANCE (PERFORMANCE)
+## ⚡ FASE 9: OTIMIZAÇÃO (PERFORMANCE + UX)
 
-**Gargalos:**
-- [lista]
-
-**Otimizações:**
-- [lista]
+**Gargalos:** [lista]
+**UX:** [melhorias]
 
 ---
 
-## 😊 UX (UX IMPROVER)
+## ✅ FASE 10: FINALIZAÇÃO
 
-**Melhorias:**
-- [lista]
-
----
-
-## 📝 RESULTADO FINAL (CRÍTICO)
-
+### CRÍTICO
 **Nota:** [X/10]
 
-**Resumo:**
-- ✅ Feito: [lista]
-- ⚠️ Pendente: [lista]
-- ❌ Não feito: [lista]
+### DOCUMENTATION
+**Atualizado:** [lista]
 
----
-
-## 📚 DOCUMENTAÇÃO (DOCUMENTATION)
-
-**Atualizado:**
-- [lista]
-
----
-
-## 🧠 APRENDIZADO (LEARNING ENGINE)
-
+### LEARNING
 **Registrado em:**
 - `/docs/learning/logs/YYYY-MM-DD.md`
 - `/ai/context/performance.md`
 
 ---
 
-## ✅ CHECKLIST FINAL
+## 📊 RESULTADO FINAL
 
-- [ ] Plano seguido
-- [ ] Código implementado
-- [ ] Testes passando
-- [ ] Visual aprovado
-- [ ] Segurança validada
-- [ ] Performance OK
-- [ ] Documentação atualizada
-- [ ] Aprendizados registrados
+| Fase | Status |
+|------|--------|
+| Interpretação | ✅/❌ |
+| Plano | ✅/❌ |
+| Análise | ✅/❌ |
+| Segurança | ✅/❌ |
+| Execução | ✅/❌ |
+| Visual | ✅/❌ |
+| Dados | ✅/❌ |
+| Testes | ✅/❌ |
+| Otimização | ✅/❌ |
 
-**Status Final:** ✅ CONCLUÍDO
+**Status Final:** ✅ CONCLUÍDO / ⚠️ PARCIAL / ❌ FALHOU
 
 ---
 
-*Template v1.0 - ConectaFramework*
+*Template v2.0 - ConectaFramework*

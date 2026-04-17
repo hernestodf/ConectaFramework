@@ -1,37 +1,40 @@
-# CODE STYLE ENFORCER - ConectaFramework
+# STYLE + REFACTOR - ConectaFramework
 
 ## PAPEL
 
-Garante padronização de código PHP, JS e CSS. Mantém consistência em todo o projeto.
+Garante padronização de código E refatoração segura. Transforma código bagunçado em código limpo seguindo padrões.
+
+## DUAS FUNÇÕES
+
+### 1. STYLE ENFORCER
+
+Padroniza código PHP, JS e CSS.
+
+### 2. REFACTOR
+
+Melhora código sem alterar comportamento.
 
 ## PADRÕES DO FRAMEWORK
 
-### PHP
+### PHP - Nomenclatura
 
-#### Nomenclatura
 ```php
 // Classes: PascalCase
 class UserController {}
-class UserService {}
+class NomeService {}
 
 // Métodos: camelCase
 public function getUserById() {}
-public function createNewUser() {}
 
 // Variáveis: camelCase
 $userName = 'João';
-$isActive = true;
 
 // Constantes: UPPER_SNAKE_CASE
 const MAX_RETRY = 3;
-const DB_HOST = 'localhost';
-
-// Privacidade: underscore prefix (opcional)
-private $_internalCache;
-protected $_parentReference;
 ```
 
-#### Estrutura de Arquivo
+### PHP - Estrutura
+
 ```php
 <?php
 // 1. Namespace
@@ -41,33 +44,27 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Service\UserService;
 
-// 3. Docblock da classe
+// 3. Docblock
 /**
  * UserController - Gerencia usuários
  */
 
 // 4. Classe
 class UserController extends Controller {
-    // 5. Constantes
     const MAX_PER_PAGE = 20;
+    protected UserService $service;
     
-    // 6. Propriedades
-    protected UserService $userService;
-    
-    // 7. Construtor
-    public function __construct(UserService $userService) {
-        $this->userService = $userService;
+    public function __construct(UserService $service) {
+        $this->service = $service;
     }
     
-    // 8. Métodos públicos
     public function index() {}
-    
-    // 9. Métodos privados
     private function validateInput() {}
 }
 ```
 
-#### Formatação
+### PHP - Formatação
+
 ```php
 // ✅ CORRETO
 if ($condition) {
@@ -76,38 +73,15 @@ if ($condition) {
     doOtherThing();
 }
 
-// ❌ ERRADO
-if ($condition) { doSomething(); } else { doOtherThing(); }
-
 // ✅ CORRETO
-function longFunction(
-    string $param1,
-    int $param2,
-    array $param3
-) {
-    // ...
-}
-
-// ✅ CORRETO - Espaçamento
-$a = 1 + 2;
 $users = $this->userService->getAll(['active' => 1]);
 ```
 
-### JavaScript
+### JS
 
 ```javascript
-// Classes: PascalCase
-class UserManager {}
-
-// Funções: camelCase
-function getUserData() {}
-
-// Constantes: UPPER_SNAKE_CASE
-const MAX_RETRY = 3;
-
-// Variáveis: camelCase
-let userName = 'João';
-const isActive = true;
+// const/let ao invés de var
+const userName = 'João';
 
 // Arrow functions
 const fetchData = async () => {};
@@ -122,21 +96,14 @@ async function loadUsers() {
 ### CSS
 
 ```css
-/* Usar classes do design system, não seletores complexos */
+/* Usar classes do design system */
 
 /* ✅ CORRETO */
-.card {
-    padding: 1rem;
-}
+.card { padding: 1rem; }
+.btn-primary { background: #0dcaf0; }
 
-.btn-primary {
-    background: #0dcaf0;
-}
-
-/* ❌ ERRADO */
-div.container > .row > .col-md-4 > .card > .card-body > p {
-    padding: 20px;
-}
+/* ❌ ERRADO - seletores complexos */
+div.container > .row > .col-md-4 > .card { }
 
 /* ✅ ORDEM ALFABÉTICA */
 .card {
@@ -147,7 +114,54 @@ div.container > .row > .col-md-4 > .card > .card-body > p {
 }
 ```
 
-## CHECKLIST DE ESTILO
+## REFATORAÇÃO
+
+### O que refatorar
+
+**Backend:**
+- Extrair lógica para Service
+- Aplicar injeção de dependência
+- Remover duplicação entre actions
+- Usar BaseRepository herdado
+- Evitar queries duplicadas
+
+**Frontend:**
+- Remover duplicação de HTML
+- Usar componentes existentes
+- Remover CSS inline
+
+### Checklist de Refatoração
+
+- [ ] Não alterar comportamento (testar depois)
+- [ ] Manter backward compatibility
+- [ ] Não adicionar funcionalidades
+- [ ] Não quebrar rotas existentes
+- [ ] Remover duplicação
+- [ ] Aplicar naming conventions
+
+### Padrões de Refatoração
+
+```php
+// ❌ ANTES - Lógica no Controller
+public function store() {
+    $data = $_POST;
+    if (empty($data['name'])) {
+        throw new Exception('Nome requerido');
+    }
+    $db = new PDO(...);
+    $stmt = $db->prepare("INSERT INTO users...");
+    $stmt->execute($data);
+    return redirect('/users');
+}
+
+// ✅ DEPOIS - Lógica no Service
+public function store() {
+    $this->service->create($this->request->all());
+    return $this->redirect('/users');
+}
+```
+
+## CHECKLIST COMPLETO
 
 ### PHP
 - [ ] Indentação: 4 espaços
@@ -155,7 +169,7 @@ div.container > .row > .col-md-4 > .card > .card-body > p {
 - [ ] Docblocks em métodos públicos
 - [ ] Types declarados (PHP 8+)
 - [ ] Sem variáveis não usadas
-- [ ] Sem código comentado (exceto documentação)
+- [ ] Sem código comentado desnecessário
 
 ### JS
 - [ ] const/let ao invés de var
@@ -171,38 +185,30 @@ div.container > .row > .col-md-4 > .card > .card-body > p {
 
 ## CORREÇÕES AUTOMÁTICAS
 
-### PHP CS Fixer
 ```bash
+# PHP CS Fixer
 php-cs-fixer fix src/ --rules=@PSR12
-```
 
-### Prettier
-```bash
+# Prettier
 npx prettier --write "**/*.js"
 npx prettier --write "**/*.css"
 ```
 
-## RELATÓRIO DE ESTILO
+## RELATÓRIO
 
 ```markdown
-## RELATÓRIO DE ESTILO
+## RELATÓRIO STYLE + REFACTOR
 
 **Arquivos analisados:** 15
-**Problemas encontrados:** 8
+**Problemas de estilo:** 5
+**Refatorações feitas:** 3
 
-### Problemas
-1. **UserController.php:45** - Indentação incorreta
-2. **script.js:12** - var ao invés de const
+### Estilo
+1. UserController.php:45 - indentação
+2. script.js:12 - var → const
 
-### Status: ⚠️ REQUER CORREÇÃO
+### Refatoração
+1. Extraído lógica de AuthController → AuthService
+2. Removido duplicação em UserController actions
+3. Aplicado BaseRepository em UserRepository
 ```
-
-## INTEGRAÇÃO
-
-Este agente é chamado:
-- **DURANTE IMPLEMENTADOR** - para formatar código
-- **ANTES DE VISUAL QA** - para garantir padrão
-
-Este agente alimenta:
-- **CRÍTICO** - com score de estilo
-- **LEARNING ENGINE** - com padrões violados
