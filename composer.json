@@ -19,7 +19,7 @@
         "post-update-cmd": [
             "@prepare-agents"
         ],
-        "prepare-agents": "mkdir -p agents && cp -r docs/agents/* agents/ 2>/dev/null || true"
+        "prepare-agents": "mkdir -p agents ai && cp -r docs/agents/* agents/ && cp -r ai/* ai/ 2>/dev/null || true"
     },
     "extra": {
         "agents-dir": "agents"
